@@ -1,6 +1,6 @@
 ﻿namespace Cotacao.Adapter.Models
 {
-    public class COGN3
+    public class COGN3 : Symbol
     {
     }
 }

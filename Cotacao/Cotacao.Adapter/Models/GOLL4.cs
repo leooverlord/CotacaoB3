@@ -1,6 +1,6 @@
 ﻿namespace Cotacao.Adapter.Models
 {
-    public class GOLL4
+    public class GOLL4 : Symbol
     {
     }
 }

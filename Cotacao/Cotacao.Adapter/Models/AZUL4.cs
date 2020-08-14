@@ -1,6 +1,6 @@
 ﻿namespace Cotacao.Adapter.Models
 {
-    public class AZUL4
+    public class AZUL4 : Symbol
     {
     }
 }

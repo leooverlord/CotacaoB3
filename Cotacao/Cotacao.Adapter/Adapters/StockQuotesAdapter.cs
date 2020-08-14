@@ -7,11 +7,11 @@ namespace Cotacao.Adapter.Adapters
 {
     public class StockQuotesAdapter : IStockQuotesAdapter
     {
-        public async Task<StockQuoteResponse> GetAddress(string symbol)
+        public async Task<StockQuoteResponse> GetStockQuotes(string symbol)
         {
             var client = RestService.For<IStockQuotesServiceApi>("https://api.hgbrasil.com");
 
-            return await client.GetAddress(symbol);
+            return await client.GetStockQuotes(symbol);
         }
     }
 }

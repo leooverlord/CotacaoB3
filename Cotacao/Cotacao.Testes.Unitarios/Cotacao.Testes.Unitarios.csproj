@@ -13,8 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Adapter\" />
     <Folder Include="Application\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cotacao.Adapter\Cotacao.Adapter.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,6 +7,6 @@ namespace Cotacao.Adapter.Interfaces
     public interface IStockQuotesServiceApi
     {
         [Get("/finance/stock_price?key=dd0b30d4&symbol={symbol}")]
-        Task<StockQuoteResponse> GetAddress(string symbol);
+        Task<StockQuoteResponse> GetStockQuotes(string symbol);
     }
 }

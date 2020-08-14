@@ -5,7 +5,7 @@ namespace Cotacao.Adapter.Models
     public class Symbol
     {
         [JsonProperty(PropertyName = "symbol")]
-        public string Symbol { get; set; }
+        public string SymbolName { get; set; }
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
@@ -20,7 +20,7 @@ namespace Cotacao.Adapter.Models
         public MarketTime MarketTime { get; set; }
 
         [JsonProperty(PropertyName = "market_cap")]
-        public int MarketCap { get; set; }
+        public double MarketCap { get; set; }
 
         [JsonProperty(PropertyName = "price")]
         public double Price { get; set; }

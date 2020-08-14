@@ -1,6 +1,6 @@
 ﻿namespace Cotacao.Adapter.Models
 {
-    public class CYRE3
+    public class CYRE3 : Symbol
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Cotacao.Adapter.Models
 {
-    public class CSNA3
+    public class CSNA3 : Symbol
     {
     }
 }
