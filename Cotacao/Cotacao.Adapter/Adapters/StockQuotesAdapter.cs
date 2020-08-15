@@ -21,10 +21,6 @@ namespace Cotacao.Adapter.Adapters
         {
             var apiKey = _configuration.GetSection("HgBrasilApi").GetSection("key").Value;
             return await _serviceApi.GetStockQuotes(apiKey, symbol);
-            //var client = RestService.For<IStockQuotesServiceApi>("https://api.hgbrasil.com");
-            //var apiKey = _configuration.GetSection("HgBrasilApi").GetSection("key").Value;
-
-            //return await client.GetStockQuotes(apiKey, symbol);
         }
     }
 }

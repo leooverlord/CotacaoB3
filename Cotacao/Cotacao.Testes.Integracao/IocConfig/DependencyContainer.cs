@@ -1,13 +1,7 @@
 ﻿using Autofac;
-using Cotacao.Adapter.Adapters;
-using Cotacao.Adapter.Interfaces;
-using Cotacao.Adapter.Models.Config;
-using Cotacao.Application.Interfaces;
-using Cotacao.Application.Services;
+using Cotacao.Adapter.Modules;
+using Cotacao.Application.Modules;
 using Microsoft.Extensions.Configuration;
-using Refit;
-using System;
-using System.Net.Http;
 
 namespace Cotacao.Testes.Integracao.IocConfig
 {
@@ -21,24 +15,14 @@ namespace Cotacao.Testes.Integracao.IocConfig
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var apiConfig = configuration.GetSection("HgBrasilApi").Get<ApiConfig>();
-
             //Configuration
             builder.Register<IConfiguration>(x => configuration);
-            
+
             //Adapter
-            builder.RegisterType<StockQuotesAdapter>().As<IStockQuotesAdapter>().InstancePerLifetimeScope();
+            builder.RegisterModule(new AdapterModule(configuration));
 
             //Application
-            builder.RegisterType<StockQuotesService>().As<IStockQuotesService>().InstancePerLifetimeScope();
-
-
-            builder.Register(c =>
-            {
-                var httpClient = new HttpClient() { BaseAddress = new Uri(apiConfig.BaseAdress) };
-                return RestService.For<IStockQuotesServiceApi>(httpClient);
-            }).As<IStockQuotesServiceApi>();
-
+            builder.RegisterModule(new ApplicationModule());
 
             return builder.Build();
         }
