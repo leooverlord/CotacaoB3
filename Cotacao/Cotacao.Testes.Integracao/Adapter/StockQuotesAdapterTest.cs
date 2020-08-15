@@ -1,36 +1,21 @@
-﻿using Cotacao.Adapter.Adapters;
+﻿using Autofac;
 using Cotacao.Adapter.Interfaces;
-using Cotacao.Adapter.Models;
-using Cotacao.Adapter.Models.Response;
 using Cotacao.Domain.Helpers;
-using Microsoft.Extensions.Configuration;
-using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Cotacao.Testes.Unitarios.Adapter
+namespace Cotacao.Testes.Integracao.Adapter
 {
     [TestFixture]
-    public class StockQuotesAdapterTest
+    public class StockQuotesAdapterTest : SetupIntegracao
     {
         private IStockQuotesAdapter adapter;
-        private Mock<IConfiguration> configuration;
-        private Mock<IStockQuotesServiceApi> serviceApi;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            var results = new Results { CSNA3 = new CSNA3(), IRBR3 = new IRBR3(), COGN3 = new COGN3(), GOLL4 = new GOLL4(), USIM5 = new USIM5(), EMBR3 = new EMBR3(), AZUL4 = new AZUL4(), CYRE3 = new CYRE3(), BRDT3 = new BRDT3(), MYPK3 = new MYPK3() };
-            var response = new StockQuoteResponse { Results = results };
-
-            configuration = new Mock<IConfiguration>();
-            serviceApi = new Mock<IStockQuotesServiceApi>();
-
-            configuration.Setup(x => x.GetSection(It.IsAny<string>()).GetSection(It.IsAny<string>()).Value).Returns("chave");
-            serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(response));
-
-            adapter = new StockQuotesAdapter(configuration.Object, serviceApi.Object);
+            adapter = Container.Resolve<IStockQuotesAdapter>();
         }
 
         [Test, TestCaseSource(nameof(Symbols))]
