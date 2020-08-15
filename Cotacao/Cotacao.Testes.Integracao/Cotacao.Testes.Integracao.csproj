@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cotacao.Adapter\Cotacao.Adapter.csproj" />
+    <ProjectReference Include="..\Cotacao.Application\Cotacao.Application.csproj" />
     <ProjectReference Include="..\Cotacao.Domain\Cotacao.Domain.csproj" />
   </ItemGroup>
 

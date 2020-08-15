@@ -2,12 +2,14 @@
 using Cotacao.Adapter.Adapters;
 using Cotacao.Adapter.Interfaces;
 using Cotacao.Adapter.Models.Config;
+using Cotacao.Application.Interfaces;
+using Cotacao.Application.Services;
 using Microsoft.Extensions.Configuration;
 using Refit;
 using System;
 using System.Net.Http;
 
-namespace Cotacao.Testes.Integracao.Ioc
+namespace Cotacao.Testes.Integracao.IocConfig
 {
     public class DependencyContainer
     {
@@ -21,8 +23,15 @@ namespace Cotacao.Testes.Integracao.Ioc
 
             var apiConfig = configuration.GetSection("HgBrasilApi").Get<ApiConfig>();
 
+            //Configuration
             builder.Register<IConfiguration>(x => configuration);
+            
+            //Adapter
             builder.RegisterType<StockQuotesAdapter>().As<IStockQuotesAdapter>().InstancePerLifetimeScope();
+
+            //Application
+            builder.RegisterType<StockQuotesService>().As<IStockQuotesService>().InstancePerLifetimeScope();
+
 
             builder.Register(c =>
             {

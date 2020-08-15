@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Cotacao.Testes.Integracao.Ioc;
+using Cotacao.Testes.Integracao.IocConfig;
 using NUnit.Framework;
 
 namespace Cotacao.Testes.Integracao

@@ -24,7 +24,7 @@ namespace Cotacao.Testes.Unitarios.Application
         }
 
         [Test]
-        public void DeveSerPossibelObterCotacoes()
+        public void DeveSerPossivelObterCotacoes()
         {
             var response = service.GetStockQuotes("abcd");
             Assert.NotNull(response);
