@@ -16,11 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Cotacao.Adapter\Cotacao.Adapter.csproj" />
+    <ProjectReference Include="..\Cotacao.Application\Cotacao.Application.csproj" />
   </ItemGroup>
 
 </Project>
