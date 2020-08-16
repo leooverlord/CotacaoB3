@@ -14,7 +14,7 @@ namespace Cotacao.Application.Services
             _adapter = adapter;
         }
 
-        public async Task<StockQuoteResponse> GetStockQuotes(string symbol)
+        public async Task<StockQuotesResponse> GetStockQuotes(string symbol)
         {
             return await _adapter.GetStockQuotes(symbol);
         }

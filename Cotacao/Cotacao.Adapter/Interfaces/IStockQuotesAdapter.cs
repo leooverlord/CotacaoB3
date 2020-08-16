@@ -6,6 +6,6 @@ namespace Cotacao.Adapter.Interfaces
 {
     public interface IStockQuotesAdapter
     {
-        Task<StockQuoteResponse> GetStockQuotes(string symbol);
+        Task<StockQuotesResponse> GetStockQuotes(string symbol);
     }
 }

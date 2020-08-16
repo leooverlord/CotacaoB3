@@ -5,6 +5,6 @@ namespace Cotacao.Application.Interfaces
 {
     public interface IStockQuotesService
     {
-        Task<StockQuoteResponse> GetStockQuotes(string symbol);
+        Task<StockQuotesResponse> GetStockQuotes(string symbol);
     }
 }

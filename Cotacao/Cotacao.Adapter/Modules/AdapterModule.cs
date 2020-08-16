@@ -21,7 +21,7 @@ namespace Cotacao.Adapter.Modules
         {
             builder.RegisterType<StockQuotesAdapter>().As<IStockQuotesAdapter>().InstancePerLifetimeScope();
 
-            var apiConfig = _configuration.GetSection("HgBrasilApi").Get<ApiConfig>();
+            var apiConfig = _configuration.GetSection("Api").Get<ApiConfig>();
 
             builder.Register(c =>
             {

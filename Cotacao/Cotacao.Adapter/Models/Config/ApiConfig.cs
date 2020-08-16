@@ -1,8 +1,10 @@
-﻿namespace Cotacao.Adapter.Models.Config
+﻿using System.Collections.Generic;
+
+namespace Cotacao.Adapter.Models.Config
 {
-    public class ApiConfig
+    internal class ApiConfig
     {
-        public string Key { get; set; }
         public string BaseAdress { get; set; }
+        public List<Header> Headers { get; set; }
     }
 }
