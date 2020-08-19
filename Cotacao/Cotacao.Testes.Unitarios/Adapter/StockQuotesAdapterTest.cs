@@ -1,5 +1,6 @@
 ﻿using Cotacao.Adapter.Adapters;
-using Cotacao.Adapter.Interfaces;
+using Cotacao.Adapter.Interfaces.Adapter;
+using Cotacao.Adapter.Interfaces.Api;
 using Cotacao.Domain.Helpers;
 using Cotacao.Testes.Unitarios.Mocks;
 using Microsoft.Extensions.Configuration;
@@ -23,8 +24,7 @@ namespace Cotacao.Testes.Unitarios.Adapter
             configuration = new Mock<IConfiguration>();
             serviceApi = new Mock<IStockQuotesServiceApi>();
 
-            //configuration.Setup(x => x.GetSection(It.IsAny<string>()).GetSection(It.IsAny<string>()).Value).Returns("chave");
-            serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<string>())).Returns(Task.FromResult(StockDailyMock.Data));
+            serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(StockDailyMock.Data));
 
             adapter = new StockQuotesAdapter(configuration.Object, serviceApi.Object);
         }

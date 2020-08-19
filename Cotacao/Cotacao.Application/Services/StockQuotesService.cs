@@ -1,4 +1,4 @@
-﻿using Cotacao.Adapter.Interfaces;
+﻿using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Adapter.Models.Response;
 using Cotacao.Application.Interfaces;
 using System.Threading.Tasks;

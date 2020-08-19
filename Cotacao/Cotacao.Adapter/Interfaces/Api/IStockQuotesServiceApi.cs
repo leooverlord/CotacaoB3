@@ -1,7 +1,7 @@
 ﻿using Refit;
 using System.Threading.Tasks;
 
-namespace Cotacao.Adapter.Interfaces
+namespace Cotacao.Adapter.Interfaces.Api
 {
     public interface IStockQuotesServiceApi
     {

@@ -1,8 +1,7 @@
-﻿using Cotacao.Adapter.Models;
-using Cotacao.Adapter.Models.Response;
+﻿using Cotacao.Adapter.Models.Response;
 using System.Threading.Tasks;
 
-namespace Cotacao.Adapter.Interfaces
+namespace Cotacao.Adapter.Interfaces.Adapter
 {
     public interface IStockQuotesAdapter
     {

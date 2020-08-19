@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Cotacao.Adapter.Interfaces;
+using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Domain.Helpers;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace Cotacao.Testes.Integracao.Adapter
             var stockQuotes = await adapter.GetStockQuotes(symbol);
 
             Assert.NotNull(stockQuotes);
-            Assert.NotNull(stockQuotes.Data);   
+            Assert.NotNull(stockQuotes.Data);
         }
 
         public static IEnumerable<string> Symbols()

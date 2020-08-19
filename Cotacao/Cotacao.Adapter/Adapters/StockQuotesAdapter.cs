@@ -1,5 +1,6 @@
 ﻿using Cotacao.Adapter.Extensions;
-using Cotacao.Adapter.Interfaces;
+using Cotacao.Adapter.Interfaces.Adapter;
+using Cotacao.Adapter.Interfaces.Api;
 using Cotacao.Adapter.Models.Config;
 using Cotacao.Adapter.Models.Response;
 using Microsoft.Extensions.Configuration;
@@ -23,7 +24,7 @@ namespace Cotacao.Adapter.Adapters
         public async Task<StockQuotesResponse> GetStockQuotes(string symbol)
         {
             var apiConfig = _configuration.GetSection("Api").Get<ApiConfig>();
-            
+
             var apiData = await _serviceApi.GetStockQuotes(symbol, apiConfig.Headers[0].Value, apiConfig.Headers[1].Value);
 
             JToken node = JToken.Parse(apiData);
