@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Cotacao.Adapter.Interfaces.Adapter;
+using Cotacao.Adapter.Interfaces.Email;
 using Cotacao.Adapter.Models.Config;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
@@ -11,21 +12,19 @@ namespace Cotacao.Testes.Integracao.Adapter
     public class EmailAdapterTest : SetupIntegracao
     {
         private IEmailAdapter adapter;
-        private IConfiguration configuration;
+        private IEmailConfig emailConfig;
 
         [OneTimeSetUp]
         public void Setup()
         {
             adapter = Container.Resolve<IEmailAdapter>();
-            configuration = Container.Resolve<IConfiguration>();
+            emailConfig = Container.Resolve<IEmailConfig>();
         }
 
         [Test]
         public void DeveSerPossivelEviarEmail()
         {
-            var email = configuration.GetSection("Email").Get<EmailConfig>();
-
-            var message = new MailMessage(email.FromAddress.Address, email.ToAddress.Address)
+            var message = new MailMessage(emailConfig.FromAddress.Address, emailConfig.ToAddress.Address)
             {
                 Subject = "Assunto",
                 Body = "Mensagem",

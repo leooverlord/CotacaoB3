@@ -1,6 +1,8 @@
-﻿using Cotacao.Adapter.Adapters;
+﻿using AutoFixture;
+using Cotacao.Adapter.Adapters;
 using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Adapter.Interfaces.Api;
+using Cotacao.Adapter.Models.Config;
 using Cotacao.Domain.Helpers;
 using Cotacao.Testes.Unitarios.Mocks;
 using Microsoft.Extensions.Configuration;
@@ -15,27 +17,32 @@ namespace Cotacao.Testes.Unitarios.Adapter
     public class StockQuotesAdapterTest
     {
         private IStockQuotesAdapter adapter;
-        private Mock<IConfiguration> configuration;
         private Mock<IStockQuotesServiceApi> serviceApi;
-
+        private Mock<IApiConfig> apiConfig;
+        
         [OneTimeSetUp]
         public void Setup()
         {
-            configuration = new Mock<IConfiguration>();
-            serviceApi = new Mock<IStockQuotesServiceApi>();
+            var headers = new List<Header> { new Header("x-rapidapi-host", "host"), new Header("x-rapidapi-key", "apiKey") };
 
+            apiConfig = new Mock<IApiConfig>();
+            apiConfig.Setup(x => x.Headers).Returns(headers);
+
+            serviceApi = new Mock<IStockQuotesServiceApi>();
             serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(StockDailyMock.Data));
 
-            adapter = new StockQuotesAdapter(configuration.Object, serviceApi.Object);
+            adapter = new StockQuotesAdapter(apiConfig.Object, serviceApi.Object);
         }
 
         [Test, TestCaseSource(nameof(Symbols))]
         public async Task DeveSerPossivelObterCotacoes(string symbol)
         {
-            var stockQuotes = await adapter.GetStockQuotes(symbol);
+            var stockQuotes = await adapter.GetStockQuotes(apiConfig.Object, symbol);
 
             Assert.NotNull(stockQuotes);
             Assert.NotNull(stockQuotes.Data);
+
+            serviceApi.Verify(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
 
         }
 

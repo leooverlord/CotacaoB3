@@ -1,4 +1,6 @@
-﻿namespace Cotacao.Adapter.Models.Config
+﻿using Cotacao.Adapter.Interfaces.Email;
+
+namespace Cotacao.Adapter.Models.Config
 {
     public class AddressMail
     {

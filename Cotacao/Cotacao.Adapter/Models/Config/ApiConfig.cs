@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Cotacao.Adapter.Interfaces.Api;
+using System.Collections.Generic;
 
 namespace Cotacao.Adapter.Models.Config
 {
-    internal class ApiConfig
+    public class ApiConfig : IApiConfig
     {
         public string BaseAdress { get; set; }
         public List<Header> Headers { get; set; }
-        public EmailConfig Email { get; set; }
     }
 }

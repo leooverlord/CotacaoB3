@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using Cotacao.Adapter.Interfaces.Email;
+using System.Net.Mail;
 
 namespace Cotacao.Adapter.Models.Config
 {

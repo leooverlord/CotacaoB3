@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using Cotacao.Adapter.Interfaces.Adapter;
+using Cotacao.Adapter.Models.Config;
 using Cotacao.Adapter.Models.Response;
 using Cotacao.Application.Services;
 using Moq;
@@ -11,20 +12,20 @@ namespace Cotacao.Testes.Unitarios.Application
     [TestFixture]
     public class StockQuotesServiceTest
     {
-        private IFixture fixture;
         private StockQuotesService service;
         private Mock<IStockQuotesAdapter> adapter;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            fixture = new Fixture();
+            var fixture = new Fixture();
             var response = fixture.Create<StockQuotesResponse>();
+            var apiConfig = fixture.Create<ApiConfig>();
 
             adapter = new Mock<IStockQuotesAdapter>();
-            adapter.Setup(x => x.GetStockQuotes(It.IsAny<string>())).Returns(Task.FromResult(response));
+            adapter.Setup(x => x.GetStockQuotes(It.IsAny<ApiConfig>(), It.IsAny<string>())).Returns(Task.FromResult(response));
 
-            service = new StockQuotesService(adapter.Object);
+            service = new StockQuotesService(apiConfig, adapter.Object);
         }
 
         [Test]

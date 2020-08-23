@@ -6,6 +6,6 @@ namespace Cotacao.Adapter.Interfaces.Api
     public interface IStockQuotesServiceApi
     {
         [Get("/query?outputsize=compact&datatype=json&function=TIME_SERIES_DAILY&symbol={symbol}")]
-        Task<string> GetStockQuotes(string symbol, [Header("x-rapidapi-host")] string hearderHost, [Header("x-rapidapi-key")] string headerApi);
+        Task<string> GetStockQuotes(string symbol, [Header("x-rapidapi-host")] string hearderHost, [Header("x-rapidapi-key")] string headerApiKey);
     }
 }
