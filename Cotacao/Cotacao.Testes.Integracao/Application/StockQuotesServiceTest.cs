@@ -4,6 +4,7 @@ using Cotacao.Application.Interfaces;
 using Cotacao.Domain.Helpers;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Cotacao.Testes.Integracao.Application
 {
@@ -19,12 +20,13 @@ namespace Cotacao.Testes.Integracao.Application
         }
 
         [Test, TestCaseSource(nameof(Symbols))]
-        public void DeveSerPossivelObterCotacoes(string symbol)
+        public async Task DeveSerPossivelObterCotacoes(string symbol)
         {
-            var response = service.GetStockQuotes(symbol);
+            var response = await service.GetStockQuotes(symbol);
 
             Assert.NotNull(response);
-            Assert.NotNull(response.Result);
+            Assert.NotNull(response.Data);
+            Assert.NotNull(response.Meta);
         }
 
         public static IEnumerable<string> Symbols()

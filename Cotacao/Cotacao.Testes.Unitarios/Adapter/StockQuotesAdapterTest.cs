@@ -1,11 +1,9 @@
-﻿using AutoFixture;
-using Cotacao.Adapter.Adapters;
+﻿using Cotacao.Adapter.Adapters;
 using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Adapter.Interfaces.Api;
 using Cotacao.Adapter.Models.Config;
 using Cotacao.Domain.Helpers;
 using Cotacao.Testes.Unitarios.Mocks;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -19,11 +17,11 @@ namespace Cotacao.Testes.Unitarios.Adapter
         private IStockQuotesAdapter adapter;
         private Mock<IStockQuotesServiceApi> serviceApi;
         private Mock<IApiConfig> apiConfig;
-        
+
         [OneTimeSetUp]
         public void Setup()
         {
-            var headers = new List<Header> { new Header("x-rapidapi-host", "host"), new Header("x-rapidapi-key", "apiKey") };
+            var headers = new List<Header> { new Header { Key = "x-rapidapi-host", Value = "host" }, new Header { Key = "x-rapidapi-key", Value = "apiKey" } };
 
             apiConfig = new Mock<IApiConfig>();
             apiConfig.Setup(x => x.Headers).Returns(headers);
