@@ -1,34 +1,34 @@
 ﻿using Autofac;
-using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Adapter.Interfaces.Email;
+using Cotacao.Application.Interfaces;
 using NUnit.Framework;
 using System.Net.Mail;
 
-namespace Cotacao.Testes.Integracao.Adapter
+namespace Cotacao.Testes.Integracao.Application
 {
     [TestFixture]
-    public class EmailAdapterTest : SetupIntegracao
+    public class EmailServiceTest : SetupIntegracao
     {
-        private IEmailAdapter adapter;
+        private IEmailService service;
         private IEmailConfig emailConfig;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            adapter = Container.Resolve<IEmailAdapter>();
+            service = Container.Resolve<IEmailService>();
             emailConfig = Container.Resolve<IEmailConfig>();
         }
 
         [Test]
-        public void DeveSerPossivelEviarEmail()
+        public void DeveSerPossivelEnviarEmail()
         {
             var message = new MailMessage(emailConfig.FromAddress.Address, emailConfig.ToAddress.Address)
             {
                 Subject = "Assunto",
-                Body = "Mensagem Adapter",
+                Body = "Mensagem Service",
             };
 
-            Assert.DoesNotThrowAsync(async () => await adapter.Send(message));
+            Assert.DoesNotThrowAsync(async () => await service.Send(message));
         }
     }
 }

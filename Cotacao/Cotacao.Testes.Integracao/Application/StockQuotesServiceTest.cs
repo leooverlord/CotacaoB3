@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Cotacao.Adapter.Interfaces.Api;
 using Cotacao.Application.Interfaces;
 using Cotacao.Domain.Helpers;
 using NUnit.Framework;

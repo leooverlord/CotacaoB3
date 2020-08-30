@@ -9,6 +9,8 @@ namespace Cotacao.Application.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<StockQuotesService>().As<IStockQuotesService>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailService>().As<IEmailService>().InstancePerLifetimeScope();
+            
         }
     }
 }
