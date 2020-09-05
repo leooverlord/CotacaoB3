@@ -14,7 +14,7 @@ namespace Cotacao.Service
         {
             //Teste
             args = new string[3];
-            args[0] = "petr4.sa";
+            args[0] = "petr4";
             args[1] = "22.67";
             args[2] = "22.59";
 

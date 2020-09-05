@@ -1,11 +1,11 @@
 ﻿using Autofac;
 using Cotacao.Adapter.Interfaces.Adapter;
-using Cotacao.Adapter.Interfaces.Api;
-using Cotacao.Adapter.Models.Config;
-using Cotacao.Domain.Helpers;
-using Microsoft.Extensions.Configuration;
+using Cotacao.Adapter.Models.QueryParams;
+using Cotacao.Domain.Enums;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cotacao.Testes.Integracao.Adapter
@@ -14,28 +14,26 @@ namespace Cotacao.Testes.Integracao.Adapter
     public class StockQuotesAdapterTest : SetupIntegracao
     {
         private IStockQuotesAdapter adapter;
-        private IApiConfig apiConfig;
 
         [OneTimeSetUp]
         public void Setup()
         {
             adapter = Container.Resolve<IStockQuotesAdapter>();
-            apiConfig = Container.Resolve<IApiConfig>();
-            
         }
 
-        [Test, TestCaseSource(nameof(Symbols))]
-        public async Task DeveSerPossivelObterCotacoes(string symbol)
+        [Test, TestCaseSource(nameof(GetSymbols))]
+        public async Task DeveSerPossivelObterCotacoes(Symbols symbol)
         {
-            var stockQuotes = await adapter.GetStockQuotes(apiConfig, symbol);
+            var stockQuotes = await adapter.GetStockQuotes(symbol, new StockQueryParams(100));
 
             Assert.NotNull(stockQuotes);
             Assert.NotNull(stockQuotes.Data);
+            CollectionAssert.IsNotEmpty(stockQuotes.Data);
         }
 
-        public static IEnumerable<string> Symbols()
+        public static IEnumerable<Symbols> GetSymbols()
         {
-            return SymbolsHelper.GetSymbols();
+            return Enum.GetValues(typeof(Symbols)).Cast<Symbols>();
         }
     }
 }

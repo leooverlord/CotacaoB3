@@ -1,20 +1,23 @@
-﻿namespace Cotacao.Adapter.Models.Response
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+
+namespace Cotacao.Adapter.Models.Response
 {
     public class StockQuotesResponse
     {
-        public StockQuotesResponse(Metadata meta, TimeSeries[] data)
-        {
-            Meta = meta;
-            Data = data;
-        }
+        [JsonProperty("data")]
+        public List<StocksDataResponse> Data { get; set; }
 
-        public Metadata Meta { get; }
+        [JsonProperty("lastUpdate")]
+        public long LastUpdate { get; set; }
 
-        public TimeSeries[] Data { get; }
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
-        public override string ToString()
-        {
-            return $"{Meta}";
-        }
+        [JsonProperty("timeOffSet")]
+        public int TimeOffSet { get; set; }
+
+        [JsonProperty("today")]
+        public long Today { get; set; }
     }
 }

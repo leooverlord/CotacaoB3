@@ -1,11 +1,12 @@
-﻿using Cotacao.Adapter.Interfaces.Api;
+﻿using Cotacao.Adapter.Models.QueryParams;
 using Cotacao.Adapter.Models.Response;
+using Cotacao.Domain.Enums;
 using System.Threading.Tasks;
 
 namespace Cotacao.Adapter.Interfaces.Adapter
 {
     public interface IStockQuotesAdapter
     {
-        Task<StockQuotesResponse> GetStockQuotes(IApiConfig apiConfig, string symbol);
+        Task<StockQuotesResponse> GetStockQuotes(Symbols symbol, StockQueryParams queryParams);
     }
 }

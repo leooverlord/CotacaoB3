@@ -1,12 +1,15 @@
 ﻿using Cotacao.Adapter.Adapters;
 using Cotacao.Adapter.Interfaces.Adapter;
 using Cotacao.Adapter.Interfaces.Api;
-using Cotacao.Adapter.Models.Config;
-using Cotacao.Domain.Helpers;
-using Cotacao.Testes.Unitarios.Mocks;
+using Cotacao.Adapter.Models;
+using Cotacao.Adapter.Models.QueryParams;
+using Cotacao.Adapter.Models.Response;
+using Cotacao.Domain.Enums;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cotacao.Testes.Unitarios.Adapter
@@ -16,37 +19,34 @@ namespace Cotacao.Testes.Unitarios.Adapter
     {
         private IStockQuotesAdapter adapter;
         private Mock<IStockQuotesServiceApi> serviceApi;
-        private Mock<IApiConfig> apiConfig;
 
         [OneTimeSetUp]
         public void Setup()
         {
-            var headers = new List<Header> { new Header { Key = "x-rapidapi-host", Value = "host" }, new Header { Key = "x-rapidapi-key", Value = "apiKey" } };
-
-            apiConfig = new Mock<IApiConfig>();
-            apiConfig.Setup(x => x.Headers).Returns(headers);
+            var response = new StockQuotesResponse { Data = new List<StocksDataResponse>() };
 
             serviceApi = new Mock<IStockQuotesServiceApi>();
-            serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(StockDailyMock.Data));
+            serviceApi.Setup(x => x.GetStockQuotes(It.IsAny<int>(), It.IsAny<StockQueryParams>())).Returns(Task.FromResult(response));
 
-            adapter = new StockQuotesAdapter(apiConfig.Object, serviceApi.Object);
+            adapter = new StockQuotesAdapter(serviceApi.Object);
         }
 
-        [Test, TestCaseSource(nameof(Symbols))]
-        public async Task DeveSerPossivelObterCotacoes(string symbol)
+        [Test, TestCaseSource(nameof(GetSymbols))]
+        public async Task DeveSerPossivelObterCotacoes(Symbols symbol)
         {
-            var stockQuotes = await adapter.GetStockQuotes(apiConfig.Object, symbol);
+            var stockQuotes = await adapter.GetStockQuotes(symbol, new StockQueryParams(10));
 
             Assert.NotNull(stockQuotes);
             Assert.NotNull(stockQuotes.Data);
 
-            serviceApi.Verify(x => x.GetStockQuotes(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            serviceApi.Verify(x => x.GetStockQuotes(It.IsAny<int>(), It.IsAny<StockQueryParams>()), Times.AtLeastOnce);
 
         }
 
-        public static IEnumerable<string> Symbols()
+
+        public static IEnumerable<Symbols> GetSymbols()
         {
-            return SymbolsHelper.GetSymbols();
+            return Enum.GetValues(typeof(Symbols)).Cast<Symbols>();
         }
     }
 }

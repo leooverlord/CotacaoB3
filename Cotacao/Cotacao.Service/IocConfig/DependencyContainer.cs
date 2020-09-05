@@ -2,6 +2,8 @@
 using Cotacao.Adapter.Modules;
 using Cotacao.Application.Modules;
 using Cotacao.Service.Interfaces;
+using Cotacao.Service.Interfaces.Mappers;
+using Cotacao.Service.Mappers;
 using Cotacao.Service.Services;
 using Microsoft.Extensions.Configuration;
 
@@ -25,6 +27,10 @@ namespace Cotacao.Service.IocConfig
 
             //Application
             builder.RegisterModule(new ApplicationModule());
+
+            //Mappers
+            builder.RegisterType<StockQuoteMapper>().As<IStockQuoteMapper>().InstancePerLifetimeScope();
+            builder.RegisterType<StockDataMapper>().As<IStockDataMapper>().InstancePerLifetimeScope();
 
             //WinServices
             builder.RegisterType<StockQuotesWinService>().As<IStockQuotesWinService>().InstancePerLifetimeScope();

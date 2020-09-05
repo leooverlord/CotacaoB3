@@ -2,15 +2,15 @@
 {
     public class StockQuotesArguments
     {
-        public string Symbol { get; set; }
-        public float High { get; set; }
-        public float Low { get; set; }
+        public string Sigla { get; set; }
+        public float Maximo { get; set; }
+        public float Minimo { get; set; }
 
-        public StockQuotesArguments(string symbol, float high, float low)
+        public StockQuotesArguments(string sigla, float maximo, float minimo)
         {
-            Symbol = symbol;
-            High = high;
-            Low = low;
+            Sigla = sigla;
+            Maximo = maximo;
+            Minimo = minimo;
         }
     }
 }

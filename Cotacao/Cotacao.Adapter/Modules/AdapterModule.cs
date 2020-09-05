@@ -33,17 +33,10 @@ namespace Cotacao.Adapter.Modules
             builder.RegisterType<EmailAdapter>().As<IEmailAdapter>().InstancePerLifetimeScope();
 
             #region MyRegion
-            //Api
-            builder.Register(x => new ApiConfig
-            {
-                BaseAdress = api.BaseAdress,
-                Headers = api.Headers
-            }).As<IApiConfig>().InstancePerLifetimeScope();
 
             builder.Register(c =>
             {
                 var httpClient = new HttpClient() { BaseAddress = new Uri(api.BaseAdress) };
-                api.Headers.ForEach(header => httpClient.DefaultRequestHeaders.Add(header.Key, header.Value));
                 return RestService.For<IStockQuotesServiceApi>(httpClient);
             }).As<IStockQuotesServiceApi>(); 
             #endregion
