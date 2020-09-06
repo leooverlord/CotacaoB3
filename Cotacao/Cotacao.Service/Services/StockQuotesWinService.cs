@@ -4,12 +4,10 @@ using Cotacao.Application.Interfaces;
 using Cotacao.Domain.Enums;
 using Cotacao.Service.Interfaces;
 using Cotacao.Service.Interfaces.Mappers;
-using Cotacao.Service.Mappers;
 using Cotacao.Service.Models;
 using System;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace Cotacao.Service.Services
 {
@@ -20,7 +18,7 @@ namespace Cotacao.Service.Services
         private readonly IEmailService _emailService;
         private readonly IEmailConfig _emailConfig;
         private readonly IStockQuoteMapper _mapper;
-        
+
         private int _tempoInicial = 60;
         private int _tempoMaximo = 60;
 
@@ -61,36 +59,38 @@ namespace Cotacao.Service.Services
         {
             try
             {
-                var emailMessage = new MailMessage(_emailConfig.FromAddress.Address, _emailConfig.ToAddress.Address)
-                {
-                    Subject = $"Cotação B3 para {_arguments.Ativo}"
-                };
+                var emailMessage = new MailMessage(_emailConfig.FromAddress.Address, _emailConfig.ToAddress.Address);
 
                 var symbol = (Symbols)Enum.Parse(typeof(Symbols), _arguments.Ativo.ToUpper());
-                var query = new StockQueryParams(1);
+                var query = new StockQueryParams(5);
                 var response = await _stockQuotesService.GetStockQuotes(symbol, query);
 
                 var stocks = _mapper.Map(response);
 
                 Console.WriteLine("-----------------------------------------------------------------------------------");
+                Console.WriteLine("-----------------------------------------------------------------------------------");
+                Console.WriteLine("Cotações");
+                Console.WriteLine($"Última atualização: {stocks.UltimaAtualizacao}");
+                Console.WriteLine($"Data: {stocks.DataCompleta}");
+                Console.WriteLine("-----------------------------------------------------------------------------------");
+                Console.WriteLine("-----------------------------------------------------------------------------------");
+
                 foreach (var cotacao in stocks.Dados)
                 {
+                    bool venda = false;
+
                     Console.WriteLine(cotacao.ToString());
 
-                    if (cotacao.Preco >= _arguments.Maximo)
-                    {
-                        Console.WriteLine("Enviando e-mail para venda");
-                        emailMessage.Body = $"Valor de venda {cotacao.Preco}";
-                    }
+                    if (cotacao.Preco >= _arguments.Maximo) venda = true;
+                    if (cotacao.Preco <= _arguments.Minimo) venda = false;
 
-                    if (cotacao.Preco <= _arguments.Minimo)
-                    {
-                        Console.WriteLine("Enviando e-mail para compra");
-                        emailMessage.Body = $"Valor de compra {cotacao.Preco}";
-                    }
+                    emailMessage.Subject = venda == true ? $"Vender ativo {_arguments.Ativo}" : $"Compar ativo {_arguments.Ativo}";
+                    emailMessage.Body = $@"Cotação atual para {_arguments.Ativo}{Environment.NewLine}{Environment.NewLine}{cotacao.ToString()}";
 
+                    Console.WriteLine(venda == true ? "Enviando e-mail para venda" : "Enviando e-mail para compra");
                     await _emailService.Send(emailMessage);
 
+                    Console.WriteLine("-----------------------------------------------------------------------------------");
                     Console.WriteLine("-----------------------------------------------------------------------------------");
                 }
             }

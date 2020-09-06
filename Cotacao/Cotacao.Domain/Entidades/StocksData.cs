@@ -14,8 +14,7 @@ namespace Domain.Entidades
 
         public override string ToString()
         {
-            return $@" Preço: {Preco} {Environment.NewLine} Maximo: {Maximo} {Environment.NewLine} Minimo: {Minimo} {Environment.NewLine} Variação Percentual: {VariacaoPercentual} {Environment.NewLine} Volume: {Volume} {Environment.NewLine} Horario: {Data}";
-
+            return $@"Preço: {Preco} {Environment.NewLine}Maximo: {Maximo} {Environment.NewLine}Minimo: {Minimo} {Environment.NewLine}Variação Percentual: {VariacaoPercentual} {Environment.NewLine}Volume: {Volume} {Environment.NewLine}Horario: {Data}";
         }
     }
 }
