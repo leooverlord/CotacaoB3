@@ -15,55 +15,58 @@ namespace Cotacao.Service.Services
 {
     public class StockQuotesWinService : IStockQuotesWinService
     {
+        private readonly StockQuotesArguments _arguments;
         private readonly IStockQuotesService _stockQuotesService;
         private readonly IEmailService _emailService;
         private readonly IEmailConfig _emailConfig;
         private readonly IStockQuoteMapper _mapper;
+        
         private int _tempoInicial = 60;
         private int _tempoMaximo = 60;
 
-        public StockQuotesWinService(IStockQuotesService stockQuotesService, IEmailService emailService, IEmailConfig emailConfig, IStockQuoteMapper mapper)
+        public StockQuotesWinService(StockQuotesArguments arguments, IStockQuotesService stockQuotesService, IEmailService emailService, IEmailConfig emailConfig, IStockQuoteMapper mapper)
         {
+            _arguments = arguments;
             _stockQuotesService = stockQuotesService;
             _emailService = emailService;
             _emailConfig = emailConfig;
             _mapper = mapper;
         }
 
-        public async Task Start(StockQuotesArguments arguments)
+        public async Task Start()
         {
             while (_tempoInicial >= 0)
             {
                 await Task.Delay(1000);
-                await Task.Run(async () => await OnTimedEvent(arguments));
+                await Task.Run(async () => await OnTimedEvent());
             }
         }
         public void Stop()
         {
             Console.WriteLine("Encerrando serviço de cotações...");
         }
-        private async Task OnTimedEvent(StockQuotesArguments arguments)
+        private async Task OnTimedEvent()
         {
             if (_tempoInicial < _tempoMaximo)
                 Console.WriteLine($"Aguarde {_tempoInicial} segundos para iniciar uma nova busca...");
             else if (_tempoInicial == _tempoMaximo)
-                await GetStocks(arguments);
+                await GetStocks();
             if (_tempoInicial <= 0)
                 _tempoInicial = _tempoMaximo;
             else
                 _tempoInicial--;
         }
 
-        private async Task GetStocks(StockQuotesArguments arguments)
+        private async Task GetStocks()
         {
             try
             {
                 var emailMessage = new MailMessage(_emailConfig.FromAddress.Address, _emailConfig.ToAddress.Address)
                 {
-                    Subject = $"Cotação B3 para {arguments.Sigla}"
+                    Subject = $"Cotação B3 para {_arguments.Ativo}"
                 };
 
-                var symbol = (Symbols)Enum.Parse(typeof(Symbols), arguments.Sigla.ToUpper());
+                var symbol = (Symbols)Enum.Parse(typeof(Symbols), _arguments.Ativo.ToUpper());
                 var query = new StockQueryParams(1);
                 var response = await _stockQuotesService.GetStockQuotes(symbol, query);
 
@@ -74,13 +77,13 @@ namespace Cotacao.Service.Services
                 {
                     Console.WriteLine(cotacao.ToString());
 
-                    if (cotacao.Preco >= arguments.Maximo)
+                    if (cotacao.Preco >= _arguments.Maximo)
                     {
                         Console.WriteLine("Enviando e-mail para venda");
                         emailMessage.Body = $"Valor de venda {cotacao.Preco}";
                     }
 
-                    if (cotacao.Preco <= arguments.Minimo)
+                    if (cotacao.Preco <= _arguments.Minimo)
                     {
                         Console.WriteLine("Enviando e-mail para compra");
                         emailMessage.Body = $"Valor de compra {cotacao.Preco}";
@@ -93,7 +96,9 @@ namespace Cotacao.Service.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine();
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.WriteLine();
             }
         }
     }

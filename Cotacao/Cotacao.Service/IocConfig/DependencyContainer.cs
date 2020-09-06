@@ -4,6 +4,7 @@ using Cotacao.Application.Modules;
 using Cotacao.Service.Interfaces;
 using Cotacao.Service.Interfaces.Mappers;
 using Cotacao.Service.Mappers;
+using Cotacao.Service.Models;
 using Cotacao.Service.Services;
 using Microsoft.Extensions.Configuration;
 
@@ -34,6 +35,9 @@ namespace Cotacao.Service.IocConfig
 
             //WinServices
             builder.RegisterType<StockQuotesWinService>().As<IStockQuotesWinService>().InstancePerLifetimeScope();
+
+            //Arguments
+            builder.Register(x => new StockQuotesArguments(Program.Ativo, Program.Maximo, Program.Minimo)).AsSelf().InstancePerLifetimeScope();
 
             return builder.Build();
         }

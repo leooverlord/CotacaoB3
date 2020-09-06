@@ -1,58 +1,37 @@
-﻿using Cotacao.Service.Interfaces;
-using Cotacao.Service.IocConfig;
-using Cotacao.Service.Models;
+﻿using Cotacao.Domain.Enums;
+using Cotacao.Service.Services;
 using System;
 using System.Globalization;
-using Topshelf;
-using Topshelf.Autofac;
+using System.Linq;
 
 namespace Cotacao.Service
 {
     public static class Program
     {
+        public static string Ativo;
+        public static double Maximo;
+        public static double Minimo;
+
         static void Main(string[] args)
         {
-            //Teste
-            args = new string[3];
-            args[0] = "petr4";
-            args[1] = "22.67";
-            args[2] = "22.59";
-
-            if(args.Length > 0)
+            if (args.Length > 0)
             {
-                var symbol = args[0];
-                var high = float.Parse(args[1], CultureInfo.InvariantCulture.NumberFormat);
-                var low = float.Parse(args[2], CultureInfo.InvariantCulture.NumberFormat);
+                Ativo = args[0];
+                Maximo = double.Parse(args[1], CultureInfo.InvariantCulture.NumberFormat);
+                Minimo = double.Parse(args[2], CultureInfo.InvariantCulture.NumberFormat);
 
-                var arguments = new StockQuotesArguments(symbol, high, low);
-
-                var container = DependencyContainer.GetContainer();
-
-                HostFactory.Run(x =>
-                {
-                    x.UseAutofacContainer(container);
-
-                    x.Service<IStockQuotesWinService>(config =>
-                    {
-                        config.ConstructUsingAutofacContainer();
-                        config.WhenStarted(s => s.Start(arguments));
-                        config.WhenStopped(s => s.Stop());
-                    });
-
-
-                    //x.RunAsLocalService();
-                    x.SetServiceName("Serviço de cotações B3");
-                    x.SetDescription("Serviço de cotações B3");
-                    x.SetDisplayName("Serviço de cotações B3");
-                    //x.StartAutomatically();
-                });
+                ConfigureService.Configure();
             }
             else
             {
-                Console.WriteLine("Por favor informe os argumentos para realizar a cotação!");
-                Console.WriteLine("Símbolo, Alta e Baixa");
+                Console.WriteLine("Por favor informe os argumentos para executar o serviço de cotações!");
+                Console.WriteLine("@Exemplo: -ativo: \"PETR4\" -maximo:\"22.67\" - minimo:\"22.59\"");
+
+                var ativos = Enum.GetNames(typeof(Symbols)).Cast<string>().ToList();
+                var ativosComVirgula = string.Join(", ", ativos);
+                Console.WriteLine($@"Ativos disponiveis para consulta: {ativosComVirgula.Remove(ativosComVirgula.LastIndexOf(","))}");
+                Console.ReadKey();
             }
-            
         }
     }
 }

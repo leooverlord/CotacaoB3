@@ -5,7 +5,7 @@ namespace Cotacao.Service.Interfaces
 {
     public interface IStockQuotesWinService
     {
-        Task Start(StockQuotesArguments arguments);
+        Task Start();
         void Stop();
     }
 }
