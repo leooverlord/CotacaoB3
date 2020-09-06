@@ -62,7 +62,7 @@ namespace Cotacao.Service.Services
                 var emailMessage = new MailMessage(_emailConfig.FromAddress.Address, _emailConfig.ToAddress.Address);
 
                 var symbol = (Symbols)Enum.Parse(typeof(Symbols), _arguments.Ativo.ToUpper());
-                var query = new StockQueryParams(5);
+                var query = new StockQueryParams(1);
                 var response = await _stockQuotesService.GetStockQuotes(symbol, query);
 
                 var stocks = _mapper.Map(response);
