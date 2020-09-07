@@ -1,6 +1,6 @@
-# _&nbsp;_ _&nbsp;_ Serviço de Cotações B3
+# Serviço de Cotações B3
 
-#### _&nbsp;_ _&nbsp;_ Este repositório contem um serviço de consulta de ativos b3, onde é utiliza uma api (http://cotacoes.economia.uol.com.br) para buscar _&nbsp;_ _&nbsp;_ _&nbsp;_ as ultimas cotações.
+#### Este repositório contem um serviço de consulta de ativos b3, onde é utiliza uma api (http://cotacoes.economia.uol.com.br) para buscar as ultimas cotações.
 
 #### _&nbsp;_ _&nbsp;_ Para a criação do projeto foram utilizadas as seguintes tecnologias:
 
@@ -19,6 +19,7 @@
 3. Compilar o projeto.
 4. Executar o servico "Cotacao.Service.exe" por linha de comando informando os parametros da consulta. (Exemplo: -ativo: "PETR4" -maximo:"22.67" - minimo:"22.59")
 5. Os ativos disponíveis para consulta atualmente são: PETR4, FLRY3, ELET3, CIEL3, HYPE3, SUZB3, CSAN3, KLBN11, BTOW3, GOAU4, USIM5, COGN3, VVAR3.
+6. A consulta do ativo informado será realizada à cada minuto, a api irá retornar a cotação mais recente de ativo. No console serão informados os dados da ultima cotação e um e-mail será enviado aconselhando a compra ou venda do ativo.
   
 
 
